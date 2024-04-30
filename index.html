@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Data</title>
+  </head>
+  <body>
+    <h1>Customer Data</h1>
+   
+    <button id="fetchWilliamButton" onclick="fetchWilliamData()">
+      Fetch William's Data
+    </button>
+    <div id="customerData"></div>
+
+    <script>
+      function fetchWilliamData() {
+     
+  console.log('Fetching William\'s data...');
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        var data = JSON.parse(xhr.responseText);
+        console.log('Received data:', data);
+        displayWilliamData(data);
+      } else {
+        console.error('Error:', xhr.statusText); // Log error to console
+      }
+    }
+  };
+  xhr.open('GET', 'http://localhost:8080/customers?name=William', true);
+  xhr.send();
+}
+
+function displayWilliamData(data) {
+  console.log('Displaying William\'s data:', data);
+  var customerData = document.getElementById('customerData');
+  customerData.innerHTML = ''; // Clear previous data
+  if (data) {
+    var details = document.createElement('div');
+    details.textContent = ' Address: ' + data.address;
+    customerData.appendChild(details);
+  } else {
+    customerData.textContent = 'Customer not found';
+  }
+}
+
+    </script>
+  </body>
+</html>

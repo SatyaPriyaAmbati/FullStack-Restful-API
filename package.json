@@ -1,0 +1,22 @@
+{
+  "name": "satya",
+  "version": "1.0.0",
+  "description": "its a basic program",
+  "main": "mynode.js",
+  "scripts": {
+    "test": "node filrname"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "formidable": "^3.5.1",
+    "fs": "^0.0.1-security",
+    "mongodb": "^6.5.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.9.7",
+    "nodemailer": "^6.9.13",
+    "upper-case": "^3.0.0"
+  }
+}
