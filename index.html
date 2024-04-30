@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Customer Data</title>
-  </head>
-  <body>
-    <h1>Customer Data</h1>
-    <input type="text" placeholder="Enter user Name"/>
-    <button id="fetchWilliamButton" onclick="fetchWilliamData()">
-      Fetch William's Data
-    </button>
-    <div id="customerData"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Data</title>
+</head>
+<body>
+  <h1>Customer Data</h1>
+  <input type="text" placeholder="Enter user Name" id="userNameInput" />
+  <button id="fetchDataButton" onclick="fetchCustomerData()">
+    Fetch User's Data
+  </button>
+  <div id="customerData"></div>
 
-    <script>
-      function fetchWilliamData() {
-     
-  console.log('Fetching William\'s data...');
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        var data = JSON.parse(xhr.responseText);
-        console.log('Received data:', data);
-        displayWilliamData(data);
+  <script>
+    function fetchCustomerData() {
+      var userName = document.getElementById('userNameInput').value;
+      if (!userName) {
+        alert('Please enter a username.');
+        return;
+      }
+      
+      console.log('Fetching ' + userName + '\'s data...');
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            console.log('Received data:', data);
+            displayCustomerData(data);
+          } else {
+            console.error('Error:', xhr.statusText); // Log error to console
+          }
+        }
+      };
+      xhr.open('GET', 'http://localhost:8080/customers?name=' + userName, true);
+      xhr.send();
+    }
+
+    function displayCustomerData(data) {
+      console.log('Displaying customer\'s data:', data);
+      var customerData = document.getElementById('customerData');
+      customerData.innerHTML = ''; // Clear previous data
+      if (data) {
+        var details = document.createElement('div');
+        details.textContent = 'Name: ' + data.name + ', Address: ' + data.address;
+        customerData.appendChild(details);
       } else {
-        console.error('Error:', xhr.statusText); // Log error to console
+        customerData.textContent = 'Customer not found';
       }
     }
-  };
-  xhr.open('GET', 'http://localhost:8080/customers?name=William', true);
-  xhr.send();
-}
-
-function displayWilliamData(data) {
-  console.log('Displaying William\'s data:', data);
-  var customerData = document.getElementById('customerData');
-  customerData.innerHTML = ''; // Clear previous data
-  if (data) {
-    var details = document.createElement('div');
-    details.textContent = ' Address: ' + data.address;
-    customerData.appendChild(details);
-  } else {
-    customerData.textContent = 'Customer not found';
-  }
-}
-
-    </script>
-  </body>
+  </script>
+</body>
 </html>
